@@ -3,6 +3,10 @@ package com.aimestart;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
+import java.util.Scanner;
+import java.util.Timer;
+import java.util.TimerTask;
+
 
 public class Player {
 
@@ -18,6 +22,7 @@ public class Player {
     Random rand = new Random();
     ArrayList<String> StartingWeapons = new ArrayList<>();
     Enemy enemy;
+    Timer timer = new Timer();
     public Player(int hp, int speed){
         StartingWeapons.addAll(Arrays.asList("Wooden Dagger", "Wooden Sword", "Wooden Scythe"));
         int randomness = rand.nextInt(StartingWeapons.size());
@@ -116,7 +121,28 @@ public class Player {
         endbar += 25;
     }
     public void battle(){
-
-        System.out.println("Battling against")
+        Scanner scan = new Scanner(System.in);
+        Enemy enemy = new Enemy();
+        System.out.println("Battling against" + "" + enemy.getName());
+        outerloop:
+        while(enemy.getHp() > 0 || this.getHp() > 0){
+            System.out.println("Player choose your action");
+            System.out.println("Player HP: " + this.getHp() + "                             " + "Monster HP: " + enemy.getHp());
+            System.out.println("1. Attack with " + this.getWeapon());
+            int s1 = scan.nextInt();
+            switch (s1){
+                case 1:
+                    this.check();
+                    int damage = this.getAtk();
+                    enemy.setHp(enemy.getHp() - damage);
+                    System.out.println("Player hits enemy for " + this.getAtk());
+                    if(enemy.getHp() <= 0){
+                        System.out.println("PLayer wins!!!");
+                        break outerloop;
+                    }
+            }
+            System.out.println("Enemy hits player for " + enemy.getAtk());
+            this.setHp(this.getHp() - enemy.getAtk());
+        }
     }
 }

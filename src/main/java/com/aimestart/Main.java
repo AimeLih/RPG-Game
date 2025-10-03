@@ -12,13 +12,7 @@ public class Main {
 
 
         Player player1 = new Player(100, 16);
-        Enemy enemy = new Enemy();
-        System.out.println(player1.getWeapon());
-        player1.check();
-        System.out.println(player1.getAtk());
-        System.out.println(player1.getCrit());
-        System.out.println(enemy.getName());
-        System.out.println(enemy.getAtk());
+      player1.battle();
 
     }
 }
