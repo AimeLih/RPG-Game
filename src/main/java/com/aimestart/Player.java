@@ -120,6 +120,27 @@ public class Player {
         }
         endbar += 25;
     }
+    private void addDelay(int milliseconds) {
+        try {
+            Timer timer = new Timer();
+            TimerTask task = new TimerTask() {
+                @Override
+                public void run() {
+                    synchronized (this) {
+                        this.notify(); // Notify when timer completes
+                    }
+                }
+            };
+
+            synchronized (task) {
+                timer.schedule(task, milliseconds);
+                task.wait(); // Wait for the timer to complete
+            }
+            timer.cancel(); // Clean up the timer
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
     public void battle(){
         Scanner scan = new Scanner(System.in);
         Enemy enemy = new Enemy();
@@ -135,14 +156,18 @@ public class Player {
                     this.check();
                     int damage = this.getAtk();
                     enemy.setHp(enemy.getHp() - damage);
-                    System.out.println("Player hits enemy for " + this.getAtk());
+                    System.out.println("Player hits enemy for " + this.getAtk() + " damage");
+                    addDelay(1500);
                     if(enemy.getHp() <= 0){
                         System.out.println("PLayer wins!!!");
                         break outerloop;
                     }
             }
-            System.out.println("Enemy hits player for " + enemy.getAtk());
+            enemy.checkEnemy();
+            System.out.println("Enemy hits player for " + enemy.getAtk() + " damage");
             this.setHp(this.getHp() - enemy.getAtk());
+            System.out.println("---------------------------------------------------");
+            addDelay(1000);
         }
     }
 }

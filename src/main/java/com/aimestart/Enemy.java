@@ -43,6 +43,18 @@ public class Enemy {
                 this.xp = 40;
         }
     }
+    public void checkEnemy(){
+        switch(this.getName()){
+            case "Slime":
+                this.atk = atkrange(2,4);
+                break;
+            case "Wolf":
+                this.atk = atkrange(3,5);
+                break;
+            case "Golem":
+                this.atk = atkrange(7,15);
+        }
+    }
 
     public String getName() {
         return name;
@@ -83,6 +95,7 @@ public class Enemy {
     public void setDef(int def) {
         this.def = def;
     }
+
     public void death(Player player){
         int initial = player.getXpbar();
         initial += this.xp;
