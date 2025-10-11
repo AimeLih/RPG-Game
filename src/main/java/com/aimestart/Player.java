@@ -1,11 +1,6 @@
 package com.aimestart;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Random;
-import java.util.Scanner;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 
 public class Player {
@@ -120,6 +115,7 @@ public class Player {
         }
         endbar += 25;
     }
+    //Helps to adjust battle flow
     private void addDelay(int milliseconds) {
         try {
             Timer timer = new Timer();
@@ -127,7 +123,7 @@ public class Player {
                 @Override
                 public void run() {
                     synchronized (this) {
-                        this.notify(); // Notify when timer completes
+                        this.notify();
                     }
                 }
             };
@@ -145,6 +141,7 @@ public class Player {
         Scanner scan = new Scanner(System.in);
         Enemy enemy = new Enemy();
         System.out.println("Battling against" + "" + enemy.getName());
+        //We exit this loop once either player or enemy reaches 0 hp
         outerloop:
         while(enemy.getHp() > 0 || this.getHp() > 0){
             System.out.println("Player choose your action");
@@ -155,11 +152,25 @@ public class Player {
                 case 1:
                     this.check();
                     int damage = this.getAtk();
-                    enemy.setHp(enemy.getHp() - damage);
-                    System.out.println("Player hits enemy for " + this.getAtk() + " damage");
+                    //Calculating defense to get our new damage
+                    if(Objects.equals(enemy.getName(), "Golem")){
+                        int reduction = 100 - enemy.getDef();
+                        reduction = (reduction/100) * 7;
+                        System.out.println("The " + this.getWeapon() + " hits the Golem's intense defense");
+                        addDelay(1000);
+                        enemy.setHp(enemy.getHp() - reduction);
+                        System.out.println("Player hits enemy for " + this.getAtk() + " damage");
+                        //If enemy has no defense
+                    } else {
+                        enemy.setHp(enemy.getHp() - damage);
+                        System.out.println("Player hits enemy for " + this.getAtk() + " damage");
+                    }
                     addDelay(1500);
                     if(enemy.getHp() <= 0){
-                        System.out.println("PLayer wins!!!");
+                        System.out.println("Player wins!!!/n " +
+                                "Earned " + enemy.getXp() + " xp");
+                        enemy.death(this);
+
                         break outerloop;
                     }
             }
