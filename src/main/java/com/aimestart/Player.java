@@ -99,13 +99,15 @@ public class Player {
         switch(this.getWeapon()){
             case "Wooden Dagger":
                 this.atk = atkrange(2,4);
+                this.crit = 35;
                 break;
             case "Wooden Sword":
                 this.atk = atkrange(5,8);
+                this.crit = 10;
                 break;
             case "Wooden Scythe":
                 this.atk = atkrange(1,4);
-                this.crit = 30;
+                this.crit = 60;
         }
     }
     public void levelup(){
@@ -144,6 +146,9 @@ public class Player {
         //We exit this loop once either player or enemy reaches 0 hp
         outerloop:
         while(enemy.getHp() > 0 || this.getHp() > 0){
+            int reduction = 0;
+            boolean crit = false;
+
             System.out.println("Player choose your action");
             System.out.println("Player HP: " + this.getHp() + "                             " + "Monster HP: " + enemy.getHp());
             System.out.println("1. Attack with " + this.getWeapon());
@@ -153,18 +158,19 @@ public class Player {
                     this.check();
                     int damage = this.getAtk();
                     //Calculating defense to get our new damage
-                    if(Objects.equals(enemy.getName(), "Golem")){
-                        int reduction = 100 - enemy.getDef();
-                        reduction = (reduction/100) * 7;
-                        System.out.println("The " + this.getWeapon() + " hits the Golem's intense defense");
-                        addDelay(1000);
-                        enemy.setHp(enemy.getHp() - reduction);
-                        System.out.println("Player hits enemy for " + this.getAtk() + " damage");
-                        //If enemy has no defense
-                    } else {
-                        enemy.setHp(enemy.getHp() - damage);
-                        System.out.println("Player hits enemy for " + this.getAtk() + " damage");
+                    int critcheck = rand.nextInt(this.getCrit() + 1);
+                    if(critcheck <= this.getCrit()){
+                        damage *= 2;
+                        System.out.println("Your " + this.getWeapon() + " feels light in your hands");
                     }
+                    if(enemy.getDef() != 0){
+                        reduction = (enemy.getDef()/100) * this.getAtk();
+                        System.out.println("The enemy's defense proves to be formidable");
+                        addDelay(1000);
+                    }
+                        enemy.setHp(enemy.getHp() - (damage - reduction));
+                        System.out.println("Player hits enemy for " + damage + " damage");
+
                     addDelay(1500);
                     if(enemy.getHp() <= 0){
                         System.out.println("Player wins!!!/n " +
