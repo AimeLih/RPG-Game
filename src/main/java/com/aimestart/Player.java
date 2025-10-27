@@ -18,12 +18,13 @@ public class Player {
     ArrayList<String> StartingWeapons = new ArrayList<>();
     Enemy enemy;
     Timer timer = new Timer();
+    Scanner scan = new Scanner(System.in);
     public Player(int hp, int speed){
-        StartingWeapons.addAll(Arrays.asList("Wooden Dagger", "Wooden Sword", "Wooden Scythe"));
-        int randomness = rand.nextInt(StartingWeapons.size());
-        String randomweapon = StartingWeapons.get(randomness);
+       // StartingWeapons.addAll(Arrays.asList("Rusted Dagger", "Wooden Sword", "Old Scythe"));
+        //int randomness = rand.nextInt(StartingWeapons.size());
+      //  String randomweapon = StartingWeapons.get(randomness);
         this.hp = hp;
-        this.Weapon = randomweapon;
+       // this.Weapon = randomweapon;
         this.speed = speed;
     }
 
@@ -97,7 +98,7 @@ public class Player {
 
     public void check(){
         switch(this.getWeapon()){
-            case "Wooden Dagger":
+            case "Rusted Dagger":
                 this.atk = atkrange(2,4);
                 this.crit = 35;
                 break;
@@ -105,7 +106,7 @@ public class Player {
                 this.atk = atkrange(5,8);
                 this.crit = 10;
                 break;
-            case "Wooden Scythe":
+            case "Old Scythe":
                 this.atk = atkrange(1,4);
                 this.crit = 60;
         }
@@ -138,6 +139,76 @@ public class Player {
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
+    }
+    public void start() {
+        boolean weaponselected = false;
+        System.out.println("Welcome traveler to the world of Rashinova.\n" +
+                "Rashinova used to be a peaceful realm until it fell to the clutches of evil and now its a home for monsters and evil alike.\n" +
+                "Please take up arms and bring peace back to Rashinova traveler\n" +
+                "-----------------------------------------------------------------");
+        addDelay(3500);
+        System.out.println("A traveler cannot be safe without a trusty weapon at their side. It's unfortunate that we only have these basic weapons but please pick one!");
+        addDelay(2500);
+        while (weaponselected != true) {
+            System.out.println("Wooden Sword\n" +
+                    "AtkR: 5-8\n" +
+                    "Crit Chance: 10%\n" +
+                    "--------------------\n" +
+                    "Rusted Dagger\n" +
+                    "AtkR: 2-4\n" +
+                    "Crit Chance: 35%\n" +
+                    "-------------------\n" +
+                    "Old Scythe\n" +
+                    "AtkR: 1-4\n" +
+                    "Crit Chance:60%");
+
+            String weaponselection = scan.nextLine();
+            switch (weaponselection) {
+                case "Wooden Sword":
+                    System.out.println("Wooden Sword -");
+                    addDelay(750);
+                    System.out.println("A sword that was crafted out of some dusty wood on a cool weekday. Make sure not to overuse it");
+                    addDelay(2750);
+                    System.out.println("Will you travel with this weapon?\n" +
+                            "Y-N");
+                    String s4 = scan.nextLine();
+                    if (s4.equals("Y")) {
+                        weaponselected = true;
+                        this.setWeapon(weaponselection);
+                        break;
+                    }
+                    break;
+                case "Rusted Dagger":
+                    System.out.println("Rusted Dagger -");
+                    addDelay(750);
+                    System.out.println("A dagger that has gone past its usefulness. Might be able to inflict minor wounds");
+                    addDelay(2750);
+                    System.out.println("Will you travel with this weapon?\n" +
+                            "Y-N");
+                    String s5 = scan.nextLine();
+                    if (s5.equals("Y")) {
+                        weaponselected = true;
+                        this.setWeapon(weaponselection);
+                        break;
+                    }
+                    break;
+                case "Old Scythe":
+                    System.out.println("Old Scythe -");
+                    addDelay(750);
+                    System.out.println("A scythe that was handled with care until its owner passed away. You feel as if it yearns to be used once more");
+                    addDelay(2750);
+                    System.out.println("Will you travel with this weapon?\n" +
+                            "Y-N");
+                    String s6 = scan.nextLine();
+                    if (s6.equals("Y")) {
+                        weaponselected = true;
+                        this.setWeapon(weaponselection);
+                        break;
+                    }
+                    break;
+            }
+        }
+
     }
     public void battle(){
         Scanner scan = new Scanner(System.in);
@@ -173,7 +244,7 @@ public class Player {
 
                     addDelay(1500);
                     if(enemy.getHp() <= 0){
-                        System.out.println("Player wins!!!/n " +
+                        System.out.println("Player wins!!!\n " +
                                 "Earned " + enemy.getXp() + " xp");
                         enemy.death(this);
 
@@ -186,5 +257,7 @@ public class Player {
             System.out.println("---------------------------------------------------");
             addDelay(1000);
         }
+        addDelay(500);
+        System.out.println("Current XP is:"  + this.getXpbar());
     }
 }
