@@ -142,13 +142,17 @@ public class Player {
     }
     public void start() {
         boolean weaponselected = false;
-        System.out.println("Welcome traveler to the world of Rashinova.\n" +
-                "Rashinova used to be a peaceful realm until it fell to the clutches of evil and now its a home for monsters and evil alike.\n" +
-                "Please take up arms and bring peace back to Rashinova traveler\n" +
-                "-----------------------------------------------------------------");
+        System.out.println("Welcome traveler to the world of Rashinova.");
+             addDelay(1250);
+        System.out.println("Rashinova used to be a peaceful realm until it fell to the clutches of evil and now its a home for monsters and evil alike.");
+        addDelay(1750);
+        System.out.println("Please take up arms and bring peace back to Rashinova traveler");
+        addDelay(1250);
+        System.out.println("-----------------------------------------------------------------");
+
         addDelay(3500);
         System.out.println("A traveler cannot be safe without a trusty weapon at their side. It's unfortunate that we only have these basic weapons but please pick one!");
-        addDelay(2500);
+        addDelay(3000);
         while (weaponselected != true) {
             System.out.println("Wooden Sword\n" +
                     "AtkR: 5-8\n" +
