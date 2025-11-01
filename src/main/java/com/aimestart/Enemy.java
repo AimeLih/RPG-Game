@@ -12,6 +12,16 @@ public class Enemy {
     private int def;
     private int xp;
 
+    public int getGold() {
+        return gold;
+    }
+
+    public void setGold(int gold) {
+        this.gold = gold;
+    }
+
+    private int gold;
+
     ArrayList<String> Monsters = new ArrayList<>();
     Random rand = new Random();
 
@@ -28,19 +38,22 @@ public class Enemy {
                 this.hp = 20;
                 this.atk = atkrange(3,5);
                 this.xp = 10;
+                this.gold = 4;
                 break;
             case "Slime":
                 this.name = "Slime";
                 this.hp = 14;
                 this.atk = atkrange(2,4);
                 this.xp = 7;
+                this.gold = 2;
                 break;
             case "Golem":
                 this.name = "Golem";
                 this.hp = 50;
                 this.atk = atkrange(7,15);
-                this.def = 10;
+                this.def = 20;
                 this.xp = 40;
+                this.gold = 10;
         }
     }
     public void checkEnemy(){

@@ -13,6 +13,16 @@ public class Player {
     private int level = 1;
     private int xpbar = 0;
     private int endbar = 100;
+
+    public int getGold() {
+        return gold;
+    }
+
+    public void setGold(int gold) {
+        this.gold = gold;
+    }
+
+    private int gold = 0;
    //Gives each player a different starting weapon
     Random rand = new Random();
     ArrayList<String> StartingWeapons = new ArrayList<>();
@@ -143,14 +153,14 @@ public class Player {
     public void start() {
         boolean weaponselected = false;
         System.out.println("Welcome traveler to the world of Rashinova.");
-             addDelay(1250);
+             addDelay(2500);
         System.out.println("Rashinova used to be a peaceful realm until it fell to the clutches of evil and now its a home for monsters and evil alike.");
-        addDelay(1750);
+        addDelay(3500);
         System.out.println("Please take up arms and bring peace back to Rashinova traveler");
-        addDelay(1250);
+        addDelay(2500);
         System.out.println("-----------------------------------------------------------------");
 
-        addDelay(3500);
+        addDelay(4000);
         System.out.println("A traveler cannot be safe without a trusty weapon at their side. It's unfortunate that we only have these basic weapons but please pick one!");
         addDelay(3000);
         while (weaponselected != true) {
@@ -249,9 +259,10 @@ public class Player {
                     addDelay(1500);
                     if(enemy.getHp() <= 0){
                         System.out.println("Player wins!!!\n " +
-                                "Earned " + enemy.getXp() + " xp");
+                                "Earned " + enemy.getXp() + " xp\n" +
+                                "Earned" + enemy.getGold() + "gold");
                         enemy.death(this);
-
+                        this.setGold(this.getGold() + enemy.getGold());
                         break outerloop;
                     }
             }
@@ -263,5 +274,11 @@ public class Player {
         }
         addDelay(500);
         System.out.println("Current XP is:"  + this.getXpbar());
+    }
+    public void shop(){
+        System.out.println("You walk into a dusty tavern with a shopkeeper who could be as old as the kingdom itself");
+        addDelay(3500);
+        System.out.println("Shopkeeper: Welcome Traveler to my home away from monsters. Leave your money at the front and move along with your way once your done");
+
     }
 }
