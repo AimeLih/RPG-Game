@@ -13,22 +13,27 @@ public class Player {
     private int level = 1;
     private int xpbar = 0;
     private int endbar = 100;
+    private int gold = 20;
 
-    public int getGold() {
-        return gold;
-    }
 
-    public void setGold(int gold) {
-        this.gold = gold;
-    }
 
-    private int gold = 0;
-   //Gives each player a different starting weapon
+   //deal with chance effects
     Random rand = new Random();
     ArrayList<String> StartingWeapons = new ArrayList<>();
+    //Enemy class
     Enemy enemy;
+    //timer for delays
     Timer timer = new Timer();
+    //for inputs
     Scanner scan = new Scanner(System.in);
+
+    //backpack for player
+    HashMap<String, Integer> backpack = new HashMap<>();
+
+
+
+
+
     public Player(int hp, int speed){
        // StartingWeapons.addAll(Arrays.asList("Rusted Dagger", "Wooden Sword", "Old Scythe"));
         //int randomness = rand.nextInt(StartingWeapons.size());
@@ -36,10 +41,28 @@ public class Player {
         this.hp = hp;
        // this.Weapon = randomweapon;
         this.speed = speed;
+        backpack.put("Health Potion", 2);
     }
+
 
     public int atkrange(int min, int max){
         return rand.nextInt(max - min + 1) + min;
+    }
+
+    public HashMap<String, Integer> getBackpack() {
+        return backpack;
+    }
+
+    public void setBackpack(HashMap<String, Integer> backpack) {
+        this.backpack = backpack;
+    }
+
+    public int getGold() {
+        return gold;
+    }
+
+    public void setGold(int gold) {
+        this.gold = gold;
     }
 
     public String getWeapon() {
@@ -128,7 +151,7 @@ public class Player {
         }
         endbar += 25;
     }
-    //Helps to adjust battle flow
+    //Helps to adjust battle flow and other time stuff
     private void addDelay(int milliseconds) {
         try {
             Timer timer = new Timer();
@@ -150,6 +173,7 @@ public class Player {
             Thread.currentThread().interrupt();
         }
     }
+
     public void start() {
         boolean weaponselected = false;
         System.out.println("Welcome traveler to the world of Rashinova.");
@@ -236,7 +260,8 @@ public class Player {
 
             System.out.println("Player choose your action");
             System.out.println("Player HP: " + this.getHp() + "                             " + "Monster HP: " + enemy.getHp());
-            System.out.println("1. Attack with " + this.getWeapon());
+            System.out.println("1. Attack with " + this.getWeapon() +"\n" +
+                    "2. Bag");
             int s1 = scan.nextInt();
             switch (s1){
                 case 1:
@@ -265,6 +290,8 @@ public class Player {
                         this.setGold(this.getGold() + enemy.getGold());
                         break outerloop;
                     }
+                case 2:
+                    this.checkbag();
             }
             enemy.checkEnemy();
             System.out.println("Enemy hits player for " + enemy.getAtk() + " damage");
@@ -275,10 +302,54 @@ public class Player {
         addDelay(500);
         System.out.println("Current XP is:"  + this.getXpbar());
     }
+    public void checkbag(){
+        int c = 1;
+        for(String i: backpack.keySet()){
+            System.out.println(c + ". " + i + ": " + backpack.get(i));
+        }
+        int bagcheck = scan.nextInt();
+        switch(bagcheck){
+            case 1:
+                if()
+        }
+
+    }
+    public void consume(String item){
+        switch(item){
+            case "Health Potion":
+                System.out.println("You chug the red liquid in one gulp");
+                addDelay(2500);
+                System.out.println("HP increases by 20!");
+        }
+    }
     public void shop(){
         System.out.println("You walk into a dusty tavern with a shopkeeper who could be as old as the kingdom itself");
         addDelay(3500);
-        System.out.println("Shopkeeper: Welcome Traveler to my home away from monsters. Leave your money at the front and move along with your way once your done");
-
+        System.out.println("Shopkeeper: Welcome traveler to my home away from monsters. Leave your money at the front and move along with your way once your done");
+        addDelay(5500);
+        innerloop:
+        while(true) {
+            System.out.println("Health Potion - 20 gold\n" +
+                    "Leave?");
+            String shopcheck = scan.nextLine();
+            switch (shopcheck) {
+                case "Health Potion":
+                    System.out.println("How many health potions should I buy?");
+                    int hpshopcheck = scan.nextInt();
+                    scan.nextLine();
+                    if (this.getGold() > hpshopcheck * 20) {
+                        System.out.println("Added " + hpshopcheck + " health potions into your bag");
+                        this.backpack.put("Health Potion", backpack.get("HealthPotion") + hpshopcheck);
+                        addDelay(2500);
+                    } else {
+                        System.out.println("Looks like I can't afford this much");
+                    }
+                    break;
+                case "Leave":
+                    System.out.println("Safe journey out there traveler.");
+                    addDelay(2500);
+                    break innerloop;
+            }
+        }
     }
 }
