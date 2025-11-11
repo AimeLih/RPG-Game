@@ -251,7 +251,7 @@ public class Player {
     public void battle(){
         Scanner scan = new Scanner(System.in);
         Enemy enemy = new Enemy();
-        System.out.println("Battling against" + "" + enemy.getName());
+        System.out.println("Battling against" + " " + enemy.getName());
         //We exit this loop once either player or enemy reaches 0 hp
         outerloop:
         while(enemy.getHp() > 0 || this.getHp() > 0){
@@ -261,7 +261,8 @@ public class Player {
             System.out.println("Player choose your action");
             System.out.println("Player HP: " + this.getHp() + "                             " + "Monster HP: " + enemy.getHp());
             System.out.println("1. Attack with " + this.getWeapon() +"\n" +
-                    "2. Bag");
+                    "2. Bag\n" +
+                    "3. Monster Info");
             int s1 = scan.nextInt();
             switch (s1){
                 case 1:
@@ -292,7 +293,12 @@ public class Player {
                     }
                 case 2:
                     this.checkbag();
+                    break;
+                case 3:
+                enemy.getDescription();
             }
+
+
             enemy.checkEnemy();
             System.out.println("Enemy hits player for " + enemy.getAtk() + " damage");
             this.setHp(this.getHp() - enemy.getAtk());
@@ -302,17 +308,40 @@ public class Player {
         addDelay(500);
         System.out.println("Current XP is:"  + this.getXpbar());
     }
-    public void checkbag(){
-        int c = 1;
-        for(String i: backpack.keySet()){
-            System.out.println(c + ". " + i + ": " + backpack.get(i));
+    public void checkbag() {
+        boolean t = true;
+        while (t) {
+        for (String i : backpack.keySet()) {
+            System.out.println(i + ": " + backpack.get(i));
         }
-        int bagcheck = scan.nextInt();
-        switch(bagcheck){
-            case 1:
-                if()
-        }
+        String bagcheck = scan.nextLine();
 
+            switch (bagcheck) {
+                case "Health Potion":
+                    if (backpack.get("Health Potion") <= 0) {
+                        System.out.println("You don't have any of this item");
+                        break;
+                    }
+                    System.out.println("Consume a Health Potion?\n" +
+                            "Y/N");
+                    String yncheck = scan.nextLine();
+                    if(yncheck.equals("Y")){
+                        backpack.put("Health Potion", backpack.get("Health Potion") - 1);
+                        System.out.println("The red liquid surges through your body\n" +
+                                "+20 hp!");
+                        this.setHp(this.getHp() + 20);
+                        t = false;
+                    } else {
+                        break;
+                    }
+                    break;
+
+                case "Exit":
+                    t = false;
+                    break;
+            }
+
+        }
     }
     public void consume(String item){
         switch(item){
@@ -320,6 +349,8 @@ public class Player {
                 System.out.println("You chug the red liquid in one gulp");
                 addDelay(2500);
                 System.out.println("HP increases by 20!");
+                this.setHp(this.getHp() + 20);
+                break;
         }
     }
     public void shop(){

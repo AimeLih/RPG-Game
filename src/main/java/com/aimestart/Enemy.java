@@ -12,13 +12,7 @@ public class Enemy {
     private int def;
     private int xp;
 
-    public int getGold() {
-        return gold;
-    }
 
-    public void setGold(int gold) {
-        this.gold = gold;
-    }
 
     private int gold;
 
@@ -39,6 +33,7 @@ public class Enemy {
                 this.atk = atkrange(3,5);
                 this.xp = 10;
                 this.gold = 4;
+                this.description = "A rabid animal who has lost all sense of meaning";
                 break;
             case "Slime":
                 this.name = "Slime";
@@ -46,6 +41,7 @@ public class Enemy {
                 this.atk = atkrange(2,4);
                 this.xp = 7;
                 this.gold = 2;
+                this.description = "A monster you've only read about in stories. It seems weak to elemntal attacks";
                 break;
             case "Golem":
                 this.name = "Golem";
@@ -54,6 +50,8 @@ public class Enemy {
                 this.def = 20;
                 this.xp = 40;
                 this.gold = 10;
+                this.description = "A shadow looms over you as you stare up at the rock monster. You sense bladed weapons won't be efficient";
+                break;
         }
     }
     public void checkEnemy(){
@@ -67,6 +65,24 @@ public class Enemy {
             case "Golem":
                 this.atk = atkrange(7,15);
         }
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    private String description;
+
+    public int getGold() {
+        return gold;
+    }
+
+    public void setGold(int gold) {
+        this.gold = gold;
     }
 
     public String getName() {
