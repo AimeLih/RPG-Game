@@ -31,16 +31,16 @@ public class Enemy {
                 this.name = "Wolf";
                 this.hp = 20;
                 this.atk = atkrange(3,5);
-                this.xp = 100;
-                this.gold = 24;
+                this.xp = 19;
+                this.gold = 16;
                 this.description = "A rabid animal who has lost all sense of meaning";
                 break;
             case "Slime":
                 this.name = "Slime";
                 this.hp = 14;
                 this.atk = atkrange(2,4);
-                this.xp = 100;
-                this.gold = 22;
+                this.xp = 22;
+                this.gold = 12;
                 this.description = "A monster you've only read about in stories. It seems weak to elemental attacks";
                 break;
             case "Golem":
@@ -48,10 +48,17 @@ public class Enemy {
                 this.hp = 50;
                 this.atk = atkrange(7,15);
                 this.def = 20;
-                this.xp = 70;
-                this.gold = 10;
+                this.xp = 50;
+                this.gold = 25;
                 this.description = "A shadow looms over you as you stare up at the rock monster. You sense bladed weapons won't be efficient";
                 break;
+            case "Zombie":
+                this.name = "Zombie";
+                this.hp = 10;
+                this.atk = atkrange(1,2);
+                this.xp = 10;
+                this.gold = 4;
+                this.description = "A zombie that has been left to rot in the shadows";
         }
     }
     public void checkEnemy(){
@@ -64,6 +71,10 @@ public class Enemy {
                 break;
             case "Golem":
                 this.atk = atkrange(7,15);
+                break;
+            case "Zombie":
+                this.atk = atkrange(1,2);
+                break;
         }
     }
 
