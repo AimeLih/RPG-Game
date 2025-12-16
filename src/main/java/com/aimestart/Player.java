@@ -145,7 +145,8 @@ public class Player {
         }
     }
     public void levelup(){
-        if(xpbar == endbar){
+        if(xpbar >= endbar){
+            xpbar = 0;
             level++;
             hp += 10;
         }
@@ -257,56 +258,72 @@ public class Player {
         while(enemy.getHp() > 0 || this.getHp() > 0){
             int reduction = 0;
             boolean crit = false;
-
+            boolean turndone = false;
             System.out.println("Player choose your action");
-            System.out.println("Player HP: " + this.getHp() + "                             " + "Monster HP: " + enemy.getHp());
-            System.out.println("1. Attack with " + this.getWeapon() +"\n" +
-                    "2. Bag\n" +
-                    "3. Monster Info");
-            int s1 = scan.nextInt();
-            switch (s1){
-                case 1:
-                    this.check();
-                    int damage = this.getAtk();
-                    //Calculating defense to get our new damage
-                    int critcheck = rand.nextInt(this.getCrit() + 1);
-                    if(critcheck <= this.getCrit()){
-                        damage *= 2;
-                        System.out.println("Your " + this.getWeapon() + " feels light in your hands");
-                    }
-                    if(enemy.getDef() != 0){
-                        reduction = (enemy.getDef()/100) * this.getAtk();
-                        System.out.println("The enemy's defense proves to be formidable");
-                        addDelay(1000);
-                    }
+            while(turndone == false) {
+                System.out.println("Player HP: " + this.getHp() + "                             " + "Monster HP: " + enemy.getHp());
+                System.out.println("1. Attack with " + this.getWeapon() + "\n" +
+                        "2. Bag\n" +
+                        "3. Monster Info");
+                int s1 = scan.nextInt();
+                switch (s1) {
+                    case 1:
+                        this.check();
+                        int damage = this.getAtk();
+                        //Calculating defense to get our new damage
+                        int critcheck = rand.nextInt(100 + 1);
+                        if (critcheck <= this.getCrit()) {
+                            damage *= 2;
+                            System.out.println("Your " + this.getWeapon() + " feels light in your hands");
+                        }
+                        if (enemy.getDef() != 0) {
+                            reduction = (enemy.getDef() / 100) * this.getAtk();
+                            System.out.println("The enemy's defense proves to be formidable");
+                            addDelay(1000);
+                        }
                         enemy.setHp(enemy.getHp() - (damage - reduction));
                         System.out.println("Player hits enemy for " + damage + " damage");
-
-                    addDelay(1500);
-                    if(enemy.getHp() <= 0){
-                        System.out.println("Player wins!!!\n " +
-                                "Earned " + enemy.getXp() + " xp\n" +
-                                "Earned" + enemy.getGold() + "gold");
-                        enemy.death(this);
-                        this.setGold(this.getGold() + enemy.getGold());
-                        break outerloop;
-                    }
-                case 2:
-                    this.checkbag();
-                    break;
-                case 3:
-                enemy.getDescription();
+                        turndone = true;
+                        addDelay(1500);
+                        if (enemy.getHp() <= 0) {
+                            System.out.println("Player wins!!!\n " +
+                                    "Earned " + enemy.getXp() + " xp\n" +
+                                    "Earned " + enemy.getGold() + " gold");
+                            System.out.println("---------------------------------------------------");
+                            enemy.death(this);
+                            this.setGold(this.getGold() + enemy.getGold());
+                            break outerloop;
+                        }
+                        break;
+                    case 2:
+                        int oghp = this.getHp();
+                        this.checkbag();
+                        if(this.getHp() != oghp){
+                            turndone = true;
+                        }
+                        break;
+                    case 3:
+                        System.out.println(enemy.getDescription());
+                        addDelay(1500);
+                        break;
+                }
             }
-
 
             enemy.checkEnemy();
             System.out.println("Enemy hits player for " + enemy.getAtk() + " damage");
             this.setHp(this.getHp() - enemy.getAtk());
+            if(this.getHp() <= 0){
+                System.out.println("Game Over. Darkness will now consume Rashinova");
+                break;
+            }
             System.out.println("---------------------------------------------------");
             addDelay(1000);
         }
         addDelay(500);
         System.out.println("Current XP is:"  + this.getXpbar());
+        if(this.getXpbar() >= this.getEndbar()){
+            levelup();
+        }
     }
     public void checkbag() {
         boolean t = true;

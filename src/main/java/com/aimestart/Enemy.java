@@ -31,24 +31,24 @@ public class Enemy {
                 this.name = "Wolf";
                 this.hp = 20;
                 this.atk = atkrange(3,5);
-                this.xp = 10;
-                this.gold = 4;
+                this.xp = 100;
+                this.gold = 24;
                 this.description = "A rabid animal who has lost all sense of meaning";
                 break;
             case "Slime":
                 this.name = "Slime";
                 this.hp = 14;
                 this.atk = atkrange(2,4);
-                this.xp = 7;
-                this.gold = 2;
-                this.description = "A monster you've only read about in stories. It seems weak to elemntal attacks";
+                this.xp = 100;
+                this.gold = 22;
+                this.description = "A monster you've only read about in stories. It seems weak to elemental attacks";
                 break;
             case "Golem":
                 this.name = "Golem";
                 this.hp = 50;
                 this.atk = atkrange(7,15);
                 this.def = 20;
-                this.xp = 40;
+                this.xp = 70;
                 this.gold = 10;
                 this.description = "A shadow looms over you as you stare up at the rock monster. You sense bladed weapons won't be efficient";
                 break;
