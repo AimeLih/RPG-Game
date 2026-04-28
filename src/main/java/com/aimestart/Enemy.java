@@ -46,7 +46,7 @@ public class Enemy {
             case "Golem":
                 this.name = "Golem";
                 this.hp = 50;
-                this.atk = atkrange(7,15);
+                this.atk = atkrange(4,12);
                 this.def = 20;
                 this.xp = 50;
                 this.gold = 25;
