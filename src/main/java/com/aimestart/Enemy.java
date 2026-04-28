@@ -33,7 +33,7 @@ public class Enemy {
                 this.atk = atkrange(3,5);
                 this.xp = 19;
                 this.gold = 16;
-                this.description = "A rabid animal who has lost all sense of meaning";
+                this.description = "A carnivorous wolf that has been left to rot in the shadows. It's not a good idea to approach it";
                 break;
             case "Slime":
                 this.name = "Slime";
